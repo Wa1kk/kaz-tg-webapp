@@ -1,9 +1,9 @@
 <template>
   <div class="menu">
-    <RouterLink to="/" custom v-slot="{ isActive, navigate }">
+    <RouterLink to="/" custom v-slot="{ navigate }">
       <i
         class="menu-button fa fa-home"
-        :class="{ active: isActive }"
+        :class="{ active: isHomeActive }"
         @click="navigate"
         aria-hidden="true"
       ></i>
@@ -18,10 +18,10 @@
       ></i>
     </RouterLink>
 
-    <RouterLink to="/game" custom v-slot="{ isActive, navigate }">
+    <RouterLink to="/game" custom v-slot="{ navigate }">
       <i
         class="menu-button fa fa-play"
-        :class="{ active: isActive }"
+        :class="{ active: isGameActive }"
         @click="navigate"
         aria-hidden="true"
       ></i>
@@ -47,6 +47,18 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { RouterLink } from 'vue-router'
+import { useRoute } from 'vue-router'
+import { computed } from 'vue'
+
+const route = useRoute()
+
+const isHomeActive = computed(() => {
+  return route.path === '/' || route.path.startsWith('/home')
+})
+
+const isGameActive = computed(() => {
+  return route.path.startsWith('/game')
+})
 </script>

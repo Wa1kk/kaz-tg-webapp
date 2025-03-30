@@ -11,7 +11,7 @@
 
         <div class="home-tracker">
           <div class="progress-bar" :style="progressStyle"></div>
-        </div>
+        </div> 
 
         <div class="home-tarcker-text">
           <div class="text3">Игр сыграно</div>
@@ -57,12 +57,12 @@
     </div>
 
     <div class="home-game-container"> 
-      <button class="home-game-button">
+      <button class="home-game-button" @click="goToGame('rocket')">
         Игра 1
       </button>
       <button @click="plays = Math.min(plays + 1, 5)">+</button>
 
-      <button class="home-game-button">
+      <button class="home-game-button" @click="goToGame('2')">
         Игра 2
       </button>
 
@@ -80,11 +80,14 @@
 
 <script setup>
   import { ref, computed, onMounted } from 'vue'
+  import { useRouter } from 'vue-router'
+
+  const router = useRouter()
 
   const stars = 1488;
   const earnedStars = 50
   const coefficient = ref(1.00)
-  const plays = ref(1) // Реактивная переменная
+  const plays = ref(0) // Реактивная переменная
 
   // Вычисляемое свойство для стилей прогресс-бара
   const progressStyle = computed(() => {
@@ -93,10 +96,27 @@
     return { width: `${width}%` }
   })
 
-  // Пример изменения значения (можно вызывать из других методов)
-  function updatePlays(newValue) {
-    plays.value = Math.min(Math.max(newValue, 0), 5) // Ограничение от 0 до 5
+  // Функция для перехода в игру с указанным названием
+  const goToGame = (gameName) => {
+  if (window.Telegram?.WebApp?.BackButton) {
+    const backButton = window.Telegram.WebApp.BackButton;
+    backButton.show();
+    backButton.onClick(() => {
+      router.push('/');
+      backButton.hide();
+      backButton.offClick();
+    });
   }
+    
+    router.push(`/home/${gameName}`);
+  };
+
+  onMounted(() => {
+  if (window.Telegram?.WebApp?.BackButton) {
+    window.Telegram.WebApp.BackButton.hide();
+    window.Telegram.WebApp.BackButton.offClick();
+    }
+  });
 
 </script>
 

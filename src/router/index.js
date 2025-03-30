@@ -8,9 +8,6 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
-      children: [
-        { path: '', name: '1', component: () => import('../views/home/1.vue') }
-      ]
     },
     {
       path: '/tasks',
@@ -21,9 +18,21 @@ const router = createRouter({
       path: '/game',
       name: 'game',
       component: () => import('../views/GameView.vue'),
-      children: [
-        { path: 'mine', name: 'mine', component: () => import('../views/game/MineView.vue') }
-      ]
+    },
+    {
+      path: '/game/mine',
+      name: 'mine',
+      component: () => import('../views/game/paid/MineView.vue'),
+    },
+    {
+      path: '/home/rocket',
+      name: 'rocket',
+      component: () => import('../views/game/free/1.vue'),
+    },
+    {
+      path: '/home/2',
+      name: '2',
+      component: () => import('../views/game/free/2.vue'),
     },
     {
       path: '/friends',
