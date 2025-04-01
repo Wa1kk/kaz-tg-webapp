@@ -131,3 +131,30 @@ body {
 }
 
 /* === Полоски меню === */
+
+.list {
+}
+
+.list-item {
+  background: #2a292e;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  margin-bottom: 1rem;
+}
+
+.list-btn {
+  background: #008800;
+  color: #000;
+  border-radius: 20px;
+  padding: 0 0.5rem;
+  text-decoration: none;
+  margin-left: 1rem;
+}
+
+.list-btn.done {
+  background: #5e5e5e;
+  color: #fff;
+}

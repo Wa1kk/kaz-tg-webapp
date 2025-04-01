@@ -10,7 +10,7 @@
 
     <ul class="list">
       <li class="list-item">
-        Maximilian
+        Головолом
         <span class="list-btn done">50</span>
       </li>
     </ul>

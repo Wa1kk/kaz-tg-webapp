@@ -1,5 +1,5 @@
 <template>
-  <main class="game">
+  <main class="game" v-if="loaded">
     <div v-if="isMobileApp" class="island">
       <div class="line"> 
         <img 
@@ -7,7 +7,7 @@
           class="icon"
           alt="Иконка"
         />
-        <h6 style="color: #ffffff;"> {{ balance.toLocaleString('ru-RU').replace(/\s/g, '.') }}</h6>
+        <h6 style="color: #ffffff;"> {{ user.money.toLocaleString('ru-RU').replace(/\s/g, '.') }}</h6>
         <button 
           @click="navigate"
           class="button"
@@ -27,12 +27,28 @@
 import { RouterView } from 'vue-router'
 import TheMenu from './components/TheMenu.vue'
 import { useTelegram } from './services/telegram'
+import { onMounted, ref } from 'vue'
+import { useAppStore } from '@/stores/app'
+import { useUserStore  } from '@/stores/score'
+const user = useUserStore ()
 
 const { platform } = useTelegram()
 const isMobileApp = ['ios', 'android'].includes(platform)
 
-const balance = 1000000;
+const loaded = ref(false)
+const app = useAppStore()
 
+const { tg } = useTelegram()
+
+const urlParams = new URLSearchParams(window.location.search)
+
+app.init(urlParams.get('ref')).then(() => {
+  loaded.value = true
+})
+
+onMounted(() => {
+  tg.ready()
+})
 </script> 
 
 <style scoped>

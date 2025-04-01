@@ -25,8 +25,13 @@ const router = createRouter({
       component: () => import('../views/game/paid/MineView.vue'),
     },
     {
-      path: '/home/rocket',
+      path: '/game/rocket',
       name: 'rocket',
+      component: () => import('../views/game/paid/RocketView.vue'),
+    },
+    {
+      path: '/home/flappy',
+      name: 'flappy',
       component: () => import('../views/game/free/1.vue'),
     },
     {

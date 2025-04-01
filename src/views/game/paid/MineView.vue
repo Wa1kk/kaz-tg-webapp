@@ -19,7 +19,7 @@
   >
     <div class="balance-content">
       <div class="balance-label">Ваш баланс:</div>
-      <div class="balance-value">{{ balance.toLocaleString('ru-RU') }} ₽</div>
+      <div class="balance-value">{{ user.money.toLocaleString('ru-RU') }} ₽</div>
     </div>
   </div>
 
@@ -108,7 +108,7 @@
             type="number" 
             v-model.number="bet" 
             :min="1" 
-            :max="balance" 
+            :max="user.money" 
             :disabled="isGameActive"
             class="bet-input"
             @change="validateBet"
@@ -143,6 +143,7 @@
 </template>
 
 <script>
+import { useUserStore  } from '@/stores/score'
 import { ref, computed, onMounted, onUpdated } from 'vue';
 
 const formatWin = (value) => {
@@ -158,7 +159,7 @@ const formatWin = (value) => {
 
 export default {
   setup() {
-    const balance = ref(1000);
+    const user = useUserStore();
     const bet = ref(10);
     const mines = ref(5);
     const grid = ref(Array(25).fill(false));
@@ -250,9 +251,9 @@ export default {
     };
 
     const startGame = () => {
-      if (bet.value > balance.value) return;
+      if (bet.value > user.money) return;
       isGameStarted.value = true;
-      balance.value -= bet.value;
+      user.minusMoney(bet.value);
       revealed.value = [];
       grid.value = Array(25).fill(false);
       const mineIndexes = new Set();
@@ -285,7 +286,7 @@ export default {
 
     const cashOut = () => {
       const winAmount = bet.value * multiplier.value;
-      balance.value += winAmount;
+      user.addMoney(winAmount);
       isCashOut.value = true;
       gameOver.value = false;
       updateNotificationPosition();
@@ -323,7 +324,7 @@ export default {
 
     const increaseBet = () => {
       const newValue = bet.value + 100;
-      bet.value = Math.min(newValue, balance.value);
+      bet.value = Math.min(newValue, user.money);
     };
 
     const decreaseBet = () => {
@@ -332,8 +333,8 @@ export default {
     };
 
     const validateBet = () => {
-      if (bet.value > balance.value) {
-        bet.value = balance.value;
+      if (bet.value > user.money) {
+        bet.value = user.money;
       }
       if (bet.value < 1) {
         bet.value = 1;
@@ -349,7 +350,7 @@ export default {
     };
 
     return { 
-      balance, bet, mines, grid, revealed, multiplier, 
+      user, bet, mines, grid, revealed, multiplier, 
       gameOver, isCashOut, isGameActive, startGame, 
       revealCell, cashOut, isGameStarted, nextMultiplier,
       currentWin, nextStepWin, maxWin, increaseMines,

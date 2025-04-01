@@ -5,6 +5,10 @@
         Капканчики
       </button>
 
+      <button class="home-button" @click="goToGame('rocket')">
+        Ракетка
+      </button>
+
     </div>
   </template>
   

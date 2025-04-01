@@ -5,7 +5,7 @@
 
       <div class="home-container-header">
         <div class="home-header-text">
-          <div class="text1">1-ый день чек-ина</div>
+          <div class="text1"> {{user.checkin + 1 }}-ый день чек-ина</div>
           <div class="text2">23:00</div>
         </div>
 
@@ -28,12 +28,12 @@
               class="icon-star"
               alt="Иконка"
              />
-            <div class="home-info-left-element"> {{ earnedStars }} </div>
+            <div class="home-info-left-element"> {{ user.earnedStars }} </div>
           </div>
 
           <div class="home-info-coefficient">x{{ coefficient.toFixed(2) }}</div>
           <button class="home-take-button">
-            Забрать
+            Забрать 
           </button>
 
         </div>
@@ -49,7 +49,7 @@
              />
             <div class="home-info-left-element"> Star points </div>
       </div>
-      <div class="home-info-left-element"> {{ stars.toFixed(2) }} SP </div>
+      <div class="home-info-left-element"> {{ user.stars.toFixed(2) }} SP </div>
     </div>
 
     <div class="home-panel"> 
@@ -57,12 +57,12 @@
     </div>
 
     <div class="home-game-container"> 
-      <button class="home-game-button" @click="goToGame('rocket')">
+      <button class="home-game-button" @click="goToGame('flappy')">
         Игра 1
       </button>
       <button @click="plays = Math.min(plays + 1, 5)">+</button>
 
-      <button class="home-game-button" @click="goToGame('2')">
+      <button class="home-game-button" @click=" user.addStars(1)">
         Игра 2
       </button>
 
@@ -81,11 +81,10 @@
 <script setup>
   import { ref, computed, onMounted } from 'vue'
   import { useRouter } from 'vue-router'
+  import { useUserStore  } from '@/stores/score'
 
   const router = useRouter()
 
-  const stars = 1488;
-  const earnedStars = 50
   const coefficient = ref(1.00)
   const plays = ref(0) // Реактивная переменная
 
@@ -117,6 +116,8 @@
     window.Telegram.WebApp.BackButton.offClick();
     }
   });
+
+  const user = useUserStore ()
 
 </script>
 
