@@ -1,6 +1,5 @@
 <template>
     <div class="container">
-      <h1>ВЗОРВАННАЯ РАКЕТКА</h1>
       
       <div class="game-area">
         <div class="multiplier-display">
@@ -27,16 +26,19 @@
   
       <div v-if="!isPlaying" class="controls">
         <input
+          ref="betInput"
           v-model.number="bet"
           type="number"
           min="1"
           :max="user.money"
           placeholder="Сумма ставки"
+          @blur="resetFormPosition"
+          @keyup.enter="handleBetInput"
         >
         <button @click="startGame" :disabled="!bet">Старт</button>
       </div>
       <div v-else class="controls">
-        <button @click="cashOut" class="cash-out">ЗАБРАТЬ ${{ (bet * currentMultiplier).toFixed(2) }}</button>
+        <button @click="cashOut" class="cash-out">ЗАБРАТЬ {{ (bet * currentMultiplier).toFixed(2) }}</button>
       </div>
   
       <div v-if="result" class="result" :class="result">
@@ -73,7 +75,8 @@
       },
       resultMessage() {
         if(this.result === 'cashout') {
-          return `💰 Успешно! Вы забрали ${this.currentMultiplier.toFixed(2)}x`
+           const winAmount = (this.bet * this.currentMultiplier).toFixed(2);
+          return `💰 Успешно! Вы забрали ${winAmount}₽ - ${this.currentMultiplier.toFixed(2)}x`
         }
         if(this.result === 'crash') {
           return `💥 Краш! Ракета рухнула на ${this.currentMultiplier.toFixed(2)}x`
@@ -82,6 +85,16 @@
       }
     },
     methods: {
+      handleBetInput() {
+        // Скрываем клавиатуру
+        this.$refs.betInput.blur();
+      },
+      
+      resetFormPosition() {
+        // Прокручиваем страницу вверх, если нужно
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      },
+      
       startGame() {
         const user = useUserStore();
         if(this.bet > user.money || this.bet <= 0) return
@@ -119,6 +132,7 @@
         },
       
       cashOut() {
+        const user = useUserStore();
         if(!this.isPlaying) return
         this.result = 'cashout'
         this.isPlaying = false
@@ -140,7 +154,7 @@
     /* Новые стили для ракеты */
     .flight-area {
     position: relative;
-    height: 400px;
+    height: 300px;
     margin: 20px 0;
     background: linear-gradient(to bottom, #000428, #004e92);
     }
@@ -152,23 +166,6 @@
     font-size: 48px;
     transition: bottom 0.05s linear;
     z-index: 2;
-    }
-
-    .rocket .flame {
-    position: absolute;
-    bottom: -35px;
-    left: 50%;
-    width: 20px;
-    height: 30px;
-    background: linear-gradient(to bottom, #ff4500, #ff0000);
-    border-radius: 50%;
-    transform: translateX(-50%);
-    animation: flame 0.2s infinite alternate;
-    }
-
-    @keyframes flame {
-    0% { height: 25px; opacity: 0.8; }
-    100% { height: 35px; opacity: 1; }
     }
 
     .dotted-line {
