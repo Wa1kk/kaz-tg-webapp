@@ -30,6 +30,11 @@ const router = createRouter({
       component: () => import('../views/game/paid/RocketView.vue'),
     },
     {
+      path: '/game/coinflip',
+      name: 'coinflip',
+      component: () => import('../views/game/paid/CoinFlipView.vue'),
+    },
+    {
       path: '/home/flappy',
       name: 'flappy',
       component: () => import('../views/game/free/1.vue'),

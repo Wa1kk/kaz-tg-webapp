@@ -6,7 +6,11 @@
       </button>
 
       <button class="home-button" @click="goToGame('rocket')">
-        Ракетка
+        ВЗОРВАННАЯ ракетка
+      </button>
+
+      <button class="home-button" @click="goToGame('coinflip')">
+        Дрип или Соус
       </button>
 
     </div>

@@ -1,0 +1,1 @@
+import{_ as n,c as o,b as s,f as t}from"./index-BavW3UvP.js";const r={},c={class:"main-container"};function a(i,e){return t(),o("div",c,e[0]||(e[0]=[s("h1",null,"Профиль соуса",-1)]))}const f=n(r,[["render",a]]);export{f as default};
