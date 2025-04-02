@@ -24,7 +24,7 @@
       const backButton = window.Telegram.WebApp.BackButton;
       backButton.show();
       backButton.onClick(() => {
-        router.push('/');
+        router.push('/game');
         backButton.hide();
         backButton.offClick();
       });

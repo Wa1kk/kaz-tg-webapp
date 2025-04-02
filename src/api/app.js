@@ -11,6 +11,27 @@ export async function fetchTasks() {
   return data
 }
 
+
+// Подписка на изменения money
+const channel = supabase
+  .channel('user-money-updates')
+  .on(
+    'postgres_changes',
+    {
+      event: 'UPDATE',
+      schema: 'public',
+      table: 'users',
+      filter: `telegram=eq.${MY_ID}`
+    },
+    (payload) => {
+      if (payload.new.money !== payload.old?.money) {
+        const userStore = useUserStore()
+        userStore.setMoney(payload.new.money)
+      }
+    }
+  )
+  .subscribe()
+
 // Получение пользователя из базы данных
 
 export async function getOrCreateUser() {
