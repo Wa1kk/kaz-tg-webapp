@@ -234,7 +234,6 @@ export default {
     const handleEnterKey = (event) => {
       validateBet();
       event.target.blur();
-      // Принудительно скрываем клавиатуру
       setTimeout(() => {
         window.scrollTo(0, 0);
       }, 50);

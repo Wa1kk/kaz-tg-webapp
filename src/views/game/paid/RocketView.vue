@@ -86,12 +86,10 @@
     },
     methods: {
       handleBetInput() {
-        // Скрываем клавиатуру
         this.$refs.betInput.blur();
       },
       
       resetFormPosition() {
-        // Прокручиваем страницу вверх, если нужно
         window.scrollTo({ top: 0, behavior: 'smooth' });
       },
       

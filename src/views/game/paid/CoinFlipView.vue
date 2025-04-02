@@ -82,6 +82,18 @@
       }
     },
     methods: {
+      handleBetInput() {
+        this.$refs.betInput.blur();
+      },
+      
+      resetFormPosition() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      },
+
+      setBetAmount(amount) {
+        this.betAmount = Math.min(amount, this.user.money);
+      },
+
       flipCoin(choice) {
         if (this.isFlipping || this.betAmount <= 0 || this.betAmount > this.user.money) return;
         this.user.minusMoney(this.betAmount);
@@ -96,11 +108,11 @@
           setTimeout(() => {
             this.isFlipping = false;
             if (this.currentSide === choice) {
-              this.result = `Победа! +${this.betAmount} ₽`;
+              this.result = `Победа! +${this.betAmount * 2}₽`;
               this.resultClass = 'win';
-              this.user.addMoney(this.betAmount);
+              this.user.addMoney(this.betAmount * 2);
             } else {
-              this.result = `Проигрыш! -${this.betAmount} ₽`;
+              this.result = `Проигрыш! -${this.betAmount}₽`;
               this.resultClass = 'loss';
             }
           }, 2000);
@@ -184,7 +196,6 @@
 
   @keyframes flip-rotate {
     0% { transform: rotateY(0deg); }
-
     100% { transform: rotateY(5760deg); }
   }
   
