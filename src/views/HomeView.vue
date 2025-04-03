@@ -57,22 +57,27 @@
     </div>
 
     <div class="home-game-container"> 
-      <button class="home-game-button" @click="goToGame('flappy')">
+      <button class="home-game-button" @click="goToGame('1')">
         Игра 1
       </button>
-      <button @click="plays = Math.min(plays + 1, 5)">+</button>
 
-      <button class="home-game-button" @click=" user.addStars(1)">
+      <button class="home-game-button" @click="goToGame('2')">
         Игра 2
       </button>
 
-      <button class="home-game-button">
+      <button class="home-game-button" @click="goToGame('3')">
         Игра 3
       </button>
 
-      <button class="home-game-button">
+      <button class="home-game-button" @click="goToGame('4')">
         Игра 4
       </button>
+
+      <button class="home-game-button" @click="goToGame('5')">
+        Игра 5
+      </button>
+
+      <button @click="plays = Math.min(plays + 1, 5)">+</button>
     </div>
 
   </div>
@@ -82,6 +87,7 @@
   import { ref, computed, onMounted } from 'vue'
   import { useRouter } from 'vue-router'
   import { useUserStore  } from '@/stores/score'
+  import { markGameAsCompleted, getCompletedGamesCount } from '@/api/app.js'
 
   const router = useRouter()
 
@@ -95,20 +101,23 @@
     return { width: `${width}%` }
   })
 
-  // Функция для перехода в игру с указанным названием
-  const goToGame = (gameName) => {
-  if (window.Telegram?.WebApp?.BackButton) {
-    const backButton = window.Telegram.WebApp.BackButton;
-    backButton.show();
-    backButton.onClick(() => {
-      router.push('/');
-      backButton.hide();
-      backButton.offClick();
-    });
+  // Функция входа в игру
+  const goToGame = async (gameId) => {
+    if (user.games?.[gameId]) {
+      return // Если игра уже пройдена, кнопка не работает
+    }
+
+    await markGameAsCompleted(gameId)
+
+    plays.value = Math.min(plays.value + 1, 5)
+
+    router.push(`/home/${gameId}`)
   }
-    
-    router.push(`/home/${gameName}`);
-  };
+
+  onMounted(async () => {
+    const count = await getCompletedGamesCount()
+    plays.value = count // Устанавливаем количество игр
+  })
 
   onMounted(() => {
   if (window.Telegram?.WebApp?.BackButton) {

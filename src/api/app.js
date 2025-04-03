@@ -60,8 +60,35 @@ export async function getOrCreateUser() {
   return newUser
 }
 
-// Обновление денег и звезд пользователя в базе данных
+export async function markGameAsCompleted(gameId) {
+  const { data } = await supabase
+    .from('users')
+    .select('games')
+    .eq('telegram', MY_ID)
+    .single()
 
+  const games = data?.games || {}
+
+  games[gameId] = true
+
+  await supabase
+    .from('users')
+    .update({ games })
+    .eq('telegram', MY_ID)
+}
+
+export async function getCompletedGamesCount() {
+  const { data } = await supabase
+    .from('users')
+    .select('games')
+    .eq('telegram', MY_ID)
+    .single()
+
+  const games = data?.games || {}  
+  return Object.keys(games).length
+}
+
+// Обновление денег и звезд пользователя в базе данных
 export async function updateMoney(money) {
   await supabase.from('users').update({ money }).eq('telegram', MY_ID)
 }

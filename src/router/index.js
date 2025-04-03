@@ -35,14 +35,29 @@ const router = createRouter({
       component: () => import('../views/game/paid/CoinFlipView.vue'),
     },
     {
-      path: '/home/flappy',
-      name: 'flappy',
+      path: '/home/1',
+      name: '1',
       component: () => import('../views/game/free/1.vue'),
     },
     {
       path: '/home/2',
       name: '2',
       component: () => import('../views/game/free/2.vue'),
+    },
+    {
+      path: '/home/3',
+      name: '3',
+      component: () => import('../views/game/free/3.vue'),
+    },
+    {
+      path: '/home/4',
+      name: '4',
+      component: () => import('../views/game/free/4.vue'),
+    },
+    {
+      path: '/home/5',
+      name: '5',
+      component: () => import('../views/game/free/5.vue'),
     },
     {
       path: '/friends',
