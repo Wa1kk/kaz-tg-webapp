@@ -107,17 +107,21 @@
       return // Если игра уже пройдена, кнопка не работает
     }
 
-    await markGameAsCompleted(gameId)
+    if (window.Telegram?.WebApp?.BackButton) {
+      const backButton = window.Telegram.WebApp.BackButton;
+      backButton.show();
+      backButton.onClick(() => {
+        router.push('/game');
+        backButton.hide();
+        backButton.offClick();
+      });
+    }
+      
+      router.push(`/game/${gameName}`);
+      await markGameAsCompleted(gameId)
 
-    plays.value = Math.min(plays.value + 1, 5)
-
-    router.push(`/home/${gameId}`)
-  }
-
-  onMounted(async () => {
-    const count = await getCompletedGamesCount()
-    plays.value = count // Устанавливаем количество игр
-  })
+      plays.value = Math.min(plays.value + 1, 5)
+  };
 
   onMounted(() => {
   if (window.Telegram?.WebApp?.BackButton) {
@@ -125,6 +129,11 @@
     window.Telegram.WebApp.BackButton.offClick();
     }
   });
+
+  onMounted(async () => {
+    const count = await getCompletedGamesCount()
+    plays.value = count // Устанавливаем количество игр
+  })
 
   const user = useUserStore ()
 

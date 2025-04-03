@@ -22,9 +22,9 @@ export const useAppStore = defineStore('app', {
       const userStore = useUserStore()
       userStore.setStars(this.user.stars)
       userStore.setMoney(this.user.money)
-      userStore.setFrozenMoney(this.user.frozenMoney)
       userStore.setEarnedStars(this.user.earnedStars)
       userStore.setCheckin(this.user.checkin)
+      userStore.setFirstName(this.user.first_name)
 
       if (ref && +ref !== +this.user.telegram) {
         await registerRef(user.first_name, ref)

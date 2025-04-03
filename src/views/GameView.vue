@@ -13,6 +13,10 @@
         Дрип или Соус
       </button>
 
+      <button class="home-button" @click="goToGame('ballEscape')">
+        СДВГ МОНСТР
+      </button>
+
     </div>
   </template>
   

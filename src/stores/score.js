@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { updateStars, updateMoney, updateEarnedStars, updateCheckin, updateFrozenMoney } from '@/api/app'
+import { updateStars, updateMoney, updateEarnedStars, updateCheckin } from '@/api/app'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -7,7 +7,7 @@ export const useUserStore = defineStore('user', {
     money: 0,
     earnedStars: 0,
     checkin: 0,
-    frozenMoney: 0,
+    first_name: 'Пользователь',
   }),
 
   actions: {
@@ -37,19 +37,6 @@ export const useUserStore = defineStore('user', {
       this.money = amount
     },
 
-    // Для замороженных денег
-    addFrozenMoney(amount = 1) {
-      this.frozenMoney += amount
-      updateFrozenMoney(this.frozenMoney)
-    },
-    minusFrozenMoney(amount = 1) {
-      this.frozenMoney -= amount
-      updateFrozenMoney(this.frozenMoney)
-    },
-    setFrozenMoney(amount) {
-      this.frozenMoney = amount
-    },
-
     // Для earned
     addEarnedStars(amount = 1) {
       this.earnedStars += amount
@@ -66,6 +53,11 @@ export const useUserStore = defineStore('user', {
     },
     setCheckin(amount = 1) {
       this.checkin = amount
+    },
+
+    // Для first_name
+    setFirstName(amount = 'Пользователь') {
+      this.first_name = amount
     }
   }
 })

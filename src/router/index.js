@@ -35,6 +35,11 @@ const router = createRouter({
       component: () => import('../views/game/paid/CoinFlipView.vue'),
     },
     {
+      path: '/game/ballEscape',
+      name: 'ballEscape',
+      component: () => import('../views/game/paid/BallEscapeView.vue'),
+    },
+    {
       path: '/home/1',
       name: '1',
       component: () => import('../views/game/free/1.vue'),
